@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/index.css">
+    <script type="text/javascript" src="./js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="./js/echarts.min.js"></script>
+    <title>test</title>
+</head>
+
+<body>
+    <div id="container" style="height: 100%"></div>
+</body>
+<script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+        renderer: 'canvas',
+        useDirtyRect: false
+    });
+    var option;
+    myChart.showLoading();
+    /**
+     * data resource: https://datav.aliyun.com/portal/school/atlas/area_selector
+     * 广西 https://geo.datav.aliyun.com/areas_v3/bound/450000_full.json
+     * 陕西 https://geo.datav.aliyun.com/areas_v3/bound/610000_full.json
+     */
+
+    $.getJSON('./data/geo/shanxi.json', function (geoJson) {
+        myChart.hideLoading();
+        echarts.registerMap('HK', geoJson);
+        myChart.setOption(
+            (option = {
+                title: {
+                    text: '陕西省2022',
+                    subtext: 'Data from Wikipedia',
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}'
+                },
+                // geo: {
+                //    roam: false, //zoom-in
+                //    label: {
+                //     normal: {},
+                //     emphasis: {}
+                //    }
+                // },
+                series: [
+                    {
+                        type: 'map',
+                        map: 'HK',
+                        label: {
+                            show: true,
+                            color: '#FFF'
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 1,
+                                borderColor: '#FFF',
+                                areaColor: '#0070bc',
+                                // borderColor: '#4ECEE6',
+                                // areaColor:'#ddd',
+                                shadowColor: '#2C99F6',
+                                shandowOffsetY: 0,
+                                shandowBlur: 25,
+                            },
+                            emphasis: {
+                                show: true,
+                                areaColor: '#e8593e',
+                                // areaColor: '#0075FF',
+                                label: {
+                                    show: true,
+                                    textStyle: {
+                                        color: '#FFF',
+                                        fontSize: 16
+                                    }
+                                }
+                            },
+                            // select: {
+                            //     label: {
+                            //         color: '#FFF'
+                            //     },
+                            //     itemStyle: {
+                            //         areaColor: '#0075FF'
+                            //     }
+                            // },
+                            // layoutCenter: ["45%", "51%"],
+                            // layoutSize: "90%"
+                        }
+                    }
+                ]
+            })
+        );
+    });
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+
+    myChart.on('click', function (params) {
+        console.log(params);
+
+    });
+</script>
+
+</html>
