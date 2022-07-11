@@ -28,72 +28,69 @@
      * 陕西 https://geo.datav.aliyun.com/areas_v3/bound/610000_full.json
      */
 
-    $.getJSON('./data/geo/shanxi.json', function (geoJson) {
+    $.getJSON('./data/geo/guangxi.json', function (geoJson) {
         myChart.hideLoading();
-        echarts.registerMap('HK', geoJson);
-        myChart.setOption(
-            (option = {
-                title: {
-                    text: '陕西省2022',
-                    subtext: 'Data from Wikipedia',
+        echarts.registerMap('SX', geoJson);
+        myChart.setOption({
+            title: {
+                text: '陕西省2022',
+                subtext: 'Data from Wikipedia',
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}'
+            },
+            geo: {
+                map: 'SX',
+                label: {
+                    show: true,
+                    color: '#FFF'
                 },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{b}'
+                itemStyle: {
+                    areaColor: '#256DBF',
+                    borderColor: '#4ECEE6',
+                    borderWidth: 1,
+                    shadowColor: '#2C99F6',
+                    shadowOffsetY: 0,
+                    shadowBlur: 25
                 },
-                // geo: {
-                //    roam: false, //zoom-in
-                //    label: {
-                //     normal: {},
-                //     emphasis: {}
-                //    }
-                // },
-                series: [
-                    {
-                        type: 'map',
-                        map: 'HK',
-                        label: {
-                            show: true,
-                            color: '#FFF'
-                        },
-                        itemStyle: {
-                            normal: {
-                                borderWidth: 1,
-                                borderColor: '#FFF',
-                                areaColor: '#0070bc',
-                                // borderColor: '#4ECEE6',
-                                // areaColor:'#ddd',
-                                shadowColor: '#2C99F6',
-                                shandowOffsetY: 0,
-                                shandowBlur: 25,
-                            },
-                            emphasis: {
-                                show: true,
-                                areaColor: '#e8593e',
-                                // areaColor: '#0075FF',
-                                label: {
-                                    show: true,
-                                    textStyle: {
-                                        color: '#FFF',
-                                        fontSize: 16
-                                    }
-                                }
-                            },
-                            // select: {
-                            //     label: {
-                            //         color: '#FFF'
-                            //     },
-                            //     itemStyle: {
-                            //         areaColor: '#0075FF'
-                            //     }
-                            // },
-                            // layoutCenter: ["45%", "51%"],
-                            // layoutSize: "90%"
-                        }
+                emphasis: {
+                    label: {
+                        show: true,
+                        position: ['50%', '50%'],
+                        color: '#FFF',
+                        fontSize: 14,
+                        fontWeight: 'bold',
+                        align: 'center',
+                        verticalAlign: 'center'
+                    },
+                    itemStyle: {
+                        areaColor: '#0075FF',
                     }
-                ]
-            })
-        );
+                },
+                select: {
+                    label: {
+                        show: true,
+                        color: "#FFF",
+                        fontSize: 14,
+                        fontWeight: 'bold',
+                        align: 'center',
+                        verticalAlign: 'center'
+                    },
+                    itemStyle: {
+                        areaColor: "#0075FF",
+                    }
+                },
+                // regions: [{
+                //     name: '百色市',
+                //     label: {
+                //     }
+                // }],
+                layoutCenter: ["50%", "50%"], //地图大小
+                selectedMode: 'single', //支持单选
+            },
+            series: []
+        });
     });
 
     if (option && typeof option === 'object') {
@@ -103,8 +100,7 @@
     window.addEventListener('resize', myChart.resize);
 
     myChart.on('click', function (params) {
-        console.log(params);
-
+        //TODO do something on click city
     });
 </script>
 
